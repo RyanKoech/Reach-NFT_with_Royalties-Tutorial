@@ -18,7 +18,7 @@ If you’re using Windows, consult the guide to using Reach on Windows[https://d
 
 Once you’ve confirmed that they are installed, choose a directory for this project. We recommend
 
-$ mkdir -p ~/reach/tut && cd ~/reach/tut
+$ mkdir -p ~/reach/nftroyalties && cd ~/reach/nftroyalties
 
 Next, install Reach by downloading it from GitHub[https://github.com/reach-sh/reach-lang] by running
 
