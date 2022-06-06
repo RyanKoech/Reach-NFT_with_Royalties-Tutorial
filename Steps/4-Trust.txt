@@ -1,0 +1,121 @@
+Even if we can make more than one bid in the auction, what if the price is not paid? Let's fix this problem.
+For this, we first change our reach code.
+
+$[tut4=>index.rsh-4,17]
+Line 7 provides a method for this: informTimeout.
+
+Line 16 define deadline. In this way, the creator will be able to set the deadline as it wishes.
+
+$[tut4=>index.rsh-27,31]
+Line 29 allows the Creator to get the deadline from the frontend.
+
+$[tut4=>index.rsh-39,62]
+Lines 40 and 41 checks if the bidder is different from the owner and the last bidder.
+
+Line 45, we determine the duration of the timeout with the deadline we receive from the creator.
+
+Line 49 through 57 specify the second timeout.
+If the price is not paid within the specified time, the informTimeout function works.
+Since the money is not paid, the nft owner does not change, the variables return to their original state and the auction finishs.
+
+Line 60 is now nft, and the variable "keepgoing" becomes "true" when the fare is swapped. So the new owner restarts the auction.
+But the new owner may not want to auction. We'll fix this later.
+
+Now it's time to fix our javascript frontend code.
+
+$[tut4=>index.mjs-26,51]
+Line 26 means the deadline is 10.
+
+Lines 28 through 31 now hold the last bidder's name and the number of runs of the seeOutcome function.
+
+Lines 38 through 40 serves to end the program.
+Because in the frontend we have set our code to be endless.
+Thanks to these codes, the program terminates after the first auction ends.
+
+Lines 47 through 50 define informTimeout function.
+
+$[tut4=>index.mjs-69,79]
+Line 74 defines the timeout as the number we specify. (Line 27)
+
+At this point, we can run the program and see its output by running
+$ ./reach run
+When I ran the program, this is the output I got:
+
+$ ./reach run
+Alice 's Bid: 1 ALGO
+Bob 's Bid: 1 ALGO
+Bob saw the bid;
+Bidder:  Bob
+Bid: 1
+Creator saw the bid;
+Bidder:  Bob
+Bid: 1
+Alice saw the bid;
+Bidder:  Bob
+Bid: 1
+Bob 's Bid: 2 ALGO
+Creator saw the bid;
+Bidder:  Bob
+Bid: 2
+Bob saw the bid;
+Bidder:  Bob
+Bid: 2
+Alice saw the bid;
+Bidder:  Bob
+Bid: 2
+Alice 's Bid: 3 ALGO
+Creator saw the bid;
+Bidder:  Alice
+Bid: 3
+Bob saw the bid;
+Bidder:  Alice
+Bid: 3
+Alice saw the bid;
+Bidder:  Alice
+Bid: 3
+Bob 's Bid: 4 ALGO
+Creator saw the bid;
+Bidder:  Bob
+Bid: 4
+Alice saw the bid;
+Bidder:  Bob
+Bid: 4
+Bob saw the bid;
+Bidder:  Bob
+Bid: 4
+Alice 's Bid: 5 ALGO
+Creator saw the bid;
+Bidder:  Alice
+Bid: 5
+Alice saw the bid;
+Bidder:  Alice
+Bid: 5
+Bob saw the bid;
+Bidder:  Alice
+Bid: 5
+Bob 's Bid: 6 ALGO
+Creator saw the bid;
+Bidder:  Bob
+Bid: 6
+Bob saw the bid;
+Bidder:  Bob
+Bid: 6
+Alice saw the bid;
+Bidder:  Bob
+Bid: 6
+Alice 's Bid: 7 ALGO
+Creator saw the bid;
+Bidder:  Alice
+Bid: 7
+Bob saw the bid;
+Bidder:  Alice
+Bid: 7
+Alice saw the bid;
+Bidder:  Alice
+Bid: 7
+Creator Saw The Winner:  Alice
+Bob Saw The Winner:  Alice
+Alice Saw The Winner:  Alice
+
+The first auction is running successfully, but we also need to check if the new owner wants to auction.
+Let's make our final changes.
