@@ -1,0 +1,127 @@
+Although we have held an auction, bidders may wish to increase their bids.
+Let's update our code for this.
+
+This time, let’s start with changes to Reach code and then we’ll go back into the JavaScript frontend and connect the new methods up.
+
+$[tut3=>index.rsh-4,7]
+Line 6 provides one method: showBid, which receives a UInt.
+
+$[tut3=>index.rsh-20,22]
+A view[https://docs.reach.sh/ref-programs-appinit.html#%28idx._%28gentag._29%29%29] is defined with View(viewName, viewInterface) on lines 20, 21 and 22,
+where viewName is a string that labels the view and viewInterface is an object where each field indicates the type of a function or value provided by the contract associated with the specified DApp.
+In the DApp, the result of this application argument is referred to as a view object.
+
+$[tut3=>index.rsh-30,61]
+Lines 30 through 33 define the required cycle (While[https://docs.reach.sh/ref-programs-consensus.html#%28part._while%29]) for the auction.
+A while statement may occur within a consensus step and is written:
+var LHS = INIT_EXPR;
+BLOCK; // optional
+invariant(INVARIANT_EXPR);
+while( COND_EXPR ) BLOCK 
+where LHS is a valid left-hand side of an identifier definition where the expression INIT_EXPR is the right-hand side, and BLOCK is an optional block that may define bindings that use the LHS values which are bound inside the rest of the while and its tail, and INVARIANT_EXPR is an expression, called the loop invariant, that must be true before and after every execution of the block BLOCK, and if COND_EXPR is true, then the block executes, and if not, then the loop terminates and control transfers to the continuation of the while statement.
+The identifiers bound by LHS are bound within INVARIANT_EXPR, COND_EXPR, BLOCK, and the tail of the while statement.
+
+Line 30 defines the variables that we will keep throughout the loop.
+In the beginning the owner is the creator.
+We also describe him as creative, as he is not a bidder.
+
+Line 31 means that the owner of the nft is the owner.
+
+Line 32 means that the resulting balance in the loop should be zero.
+
+Line 33 indicates that the loop will continue as long as the keepgoing variable is true.
+
+Line 34 ends the current consensus step and allows local steps.
+
+Line 40 through 51 is a good example of using 'Publish, Pay, When and Timeout'[https://docs.reach.sh/ref-programs-step.html#%28part._publish__pay__when__and_timeout%29].
+
+Line 41, 'When' is a public expression evaluating to a boolean and determines if the consensus transfer takes place. 
+We check if the new bid is greater than the last bid and whether the bidder was the last bidder.
+
+Lines 42 through 51, Timeout is a timeout block that executes the written function some time after the end of the last reconciliation step.
+Line 46 means that after the deadline, the highest bidder pays the price.
+Line 47 sends the money paid by the bidder to the owner of the NFT.
+Line 49 updates our variables. Our loop ends because keepgoing is false.
+
+Line 59 updates our variables. The last bidder and the price vary.
+
+Our Reach code is ready. Now we’ll go back into the JavaScript frontend code and connect the new methods up.
+
+$[tut3=>index.mjs-4,9]
+Line 8 shows a helpful function for displaying currency amounts with up to 4 decimal places.
+
+$[tut3=>index.mjs-17,69]
+Lines 17 through 24 define the highest bid bidders can pay. Because they can now bid more than once.
+
+Lines 27 through 30 hold the name of the last bidder and last bid amount.
+
+Lines 37 through 41 define the seeOutcome method.
+
+Lines 44 through 61 define the makeOwner function. 
+This function allows bidders to connection to the contract.
+
+Lines 70 and 71 bind the bidders to the contract.
+
+At this point, we can run the program and see its output by running
+$ ./reach run
+When I ran the program, this is the output I got:
+
+$ ./reach run
+Bob 's Bid: 1 ALGO
+Creator saw the bid;
+Bidder:  Bob
+Bid: 1
+Alice saw the bid;
+Bidder:  Bob
+Bid: 1
+Bob saw the bid;
+Bidder:  Bob
+Bid: 1
+Alice 's Bid: 2 ALGO
+Creator saw the bid;
+Bidder:  Alice
+Bid: 2
+Bob saw the bid;
+Bidder:  Alice
+Bid: 2
+Alice saw the bid;
+Bidder:  Alice
+Bid: 2
+Bob 's Bid: 3 ALGO
+Creator saw the bid;
+Bidder:  Bob
+Bid: 3
+Bob saw the bid;
+Bidder:  Bob
+Bid: 3
+Alice saw the bid;
+Bidder:  Bob
+Bid: 3
+Alice 's Bid: 4 ALGO
+Creator saw the bid;
+Bidder:  Alice
+Bid: 4
+Alice saw the bid;
+Bidder:  Alice
+Bid: 4
+Bob saw the bid;
+Bidder:  Alice
+Bid: 4
+Bob 's Bid: 5 ALGO
+Creator saw the bid;
+Bidder:  Bob
+Bid: 5
+Alice saw the bid;
+Bidder:  Bob
+Bid: 5
+Bob saw the bid;
+Bidder:  Bob
+Bid: 5
+Alice 's Bid: 6 ALGO
+Creator Saw The Winner:  Alice
+Alice Saw The Winner:  Alice
+Bob Saw The Winner:  Alice
+
+There are some issues in our code that we need to fix.
+What if the bidder does not pay the price?
+Let's fix these problems.
