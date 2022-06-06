@@ -1,0 +1,95 @@
+In order for an the creator to benefit from royalties, the NFTs must first be able to be sold.
+In this section we shall begin implementing an auctioning system where Bob and Alice can bid for the NFT.
+Creator will set a unique id. In the auction, Alice and Bob will bid. The highest bidder will win.
+The first step is to change the Reach program to specify that Creator, Alice and Bob’s frontends can be interacted with to get the info about auction, and later informed of the outcome of the auction.
+
+$[tut2=>index.rsh-1,18]
+
+'use strict' on line 2 enables unused variables checks for all subsequent declarations within the current scope.
+If a variable is declared, but never used, there will be an error emitted at compile time.
+
+Lines 4 through 5 define a participant interact interface that will be shared between the creator and bidders.
+In this case, it provides one method: seeOutcome, which receives a address.
+
+Lines 11 and 15 uses this interface for both participants. 
+Because of this line, interact in the rest of the program will be bound to an object with methods corresponding to these actions, which will connect to the frontend of the corresponding participant.
+
+Lines 10 through 13 define Creator’s interface as the Common interface, plus an integer value called getId.
+
+Lines 14 through 17 do the same for Bidder, where bidder has a method called getBid that can get bid.
+
+Before continuing with the Reach application, let’s move over to the JavaScript interface and implement these methods in our frontend.
+
+$[tut2=>index.mjs-16,49]
+
+Line 16 define unique id.
+
+Lines 17 and 20 hold the bids that Alice and Bob would make.
+
+Line 22 defines a constructor for the Common implementation.
+
+Lines 23 through 26 define the seeOutcome method.
+
+Finally, lines 32, 37 and 45 instantiate the implementation once for Creator, Alice and once for Bob.
+
+Line 33 defines id as a random number. (Line 16)
+This is an example of using a concrete value, rather than a function, in a participant interact interface.
+
+Lines 38 through 41 and 46 through 49 define the getBid function.
+These are the actual objects that will be bound to interact in the Reach program.
+
+There should be nothing interesting or controversial about these implementations; that’s the point of Reach:
+we get to just write normal business logic without worrying about the details of the consensus network and decentralized application.
+
+Let’s return to the Reach program and look inside of the body of the program for what actions Creator and Bidder(Alice and Bob) take.
+
+In a real-life auction!, The auction begins and the bidders bid. The highest bidder will be the winner.
+
+The auction proceeds in three steps.
+
+First, the backend for Creator interacts with its frontend, gets NFT’s id, and publishes it.
+$[tut2=>index.rsh-20,24]
+
+Line 20 states that this block of code is something that only Creator performs.
+
+That means that the variable, id, bound on line 21 is known only to Creator.
+Line 21 binds that value to the result of interacting with Creator through the getId method, which we wrote in JavaScript.
+Line 21 also declassifies the value, because in Reach, all information from frontends is secret until it is explicitly made public.
+
+Line 14 has Creator join the application by publishing the value to the consensus network, so that the unique id of the nft is known and used by everyone.
+Once this happens, the code is in a "consensus step" where all participants act together.
+
+Line 24 commits the state of the consensus network and returns to "local step" where individual participants can act alone.
+
+Line 26 states that this block of code is something that only Bidder performs.
+
+Line 27 binds that value to the result of interacting with Bidder through the getBid method, which we wrote in JavaScript.
+
+Line 28 specifies the last commit bidder.
+
+Line 30 has Biddder join the application by publishing the bid to the consensus network, so it can be used to evaluate the outcome of the auction.
+Once this happens, the code is in a "consensus step" where all participants act together.
+
+Finally, we use the each form to have each of the participants send the final outcome to their frontends.
+
+Line 33 states that this is a local step that each of the participants performs.
+
+At this point, we can run the program and see its output by running
+$ ./reach run
+When I ran the program, this is the output I got:
+
+$ ./reach run
+Bob's Bid:  4 ALGO
+Alice's Bid:  2 ALGO
+Creator Saw The Winner:  Bob
+Bob Saw The Winner:  Bob
+Alice Saw The Winner:  Bob
+
+Bob really wants this NFT!
+
+Consensus networks in general, and Reach specifically, guarantee that all participants agree on the outcome of their decentralized computation.
+Indeed, this is where the name consensus network comes from, as they enable these distributed, and untrusted, parties to come to a consensus, or agreement, about the intermediate states of a computation;
+and if they agree on the intermediate states, they will also agree on the output.
+That’s why every time you run ./reach run, all participant will see the same outcome!
+
+In the next step we will add a loop so that more can be bid.
