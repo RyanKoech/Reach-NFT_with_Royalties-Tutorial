@@ -3,7 +3,7 @@ In this section we shall begin implementing an auctioning system where Bob and A
 Creator will set a unique id. In the auction, Alice and Bob will bid. The highest bidder will win.
 The first step is to change the Reach program to specify that Creator, Alice and Bob’s frontends can be interacted with to get the info about auction, and later informed of the outcome of the auction.
 
-$[tut2=>index.rsh-1,18]
+$[2-complete=>index.rsh-1,18]
 
 'use strict' on line 2 enables unused variables checks for all subsequent declarations within the current scope.
 If a variable is declared, but never used, there will be an error emitted at compile time.
@@ -20,7 +20,7 @@ Lines 14 through 17 do the same for Bidder, where bidder has a method called get
 
 Before continuing with the Reach application, let’s move over to the JavaScript interface and implement these methods in our frontend.
 
-$[tut2=>index.mjs-16,49]
+$[2-complete=>index.mjs-16,49]
 
 Line 16 define unique id.
 
@@ -48,7 +48,7 @@ In a real-life auction!, The auction begins and the bidders bid. The highest bid
 The auction proceeds in three steps.
 
 First, the backend for Creator interacts with its frontend, gets NFT’s id, and publishes it.
-$[tut2=>index.rsh-20,24]
+$[2-complete=>index.rsh-20,24]
 
 Line 20 states that this block of code is something that only Creator performs.
 

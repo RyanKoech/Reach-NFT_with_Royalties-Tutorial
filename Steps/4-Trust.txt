@@ -1,15 +1,15 @@
 Even if we can make more than one bid in the auction, what if the price is not paid? Let's fix this problem.
 For this, we first change our reach code.
 
-$[tut4=>index.rsh-4,17]
+$[4-complete=>index.rsh-4,17]
 Line 7 provides a method for this: informTimeout.
 
 Line 16 define deadline. In this way, the creator will be able to set the deadline as it wishes.
 
-$[tut4=>index.rsh-27,31]
+$[4-complete=>index.rsh-27,31]
 Line 29 allows the Creator to get the deadline from the frontend.
 
-$[tut4=>index.rsh-39,62]
+$[4-complete=>index.rsh-39,62]
 Lines 40 and 41 checks if the bidder is different from the owner and the last bidder.
 
 Line 45, we determine the duration of the timeout with the deadline we receive from the creator.
@@ -23,7 +23,7 @@ But the new owner may not want to auction. We'll fix this later.
 
 Now it's time to fix our javascript frontend code.
 
-$[tut4=>index.mjs-26,51]
+$[4-complete=>index.mjs-26,51]
 Line 26 means the deadline is 10.
 
 Lines 28 through 31 now hold the last bidder's name and the number of runs of the seeOutcome function.
@@ -34,7 +34,7 @@ Thanks to these codes, the program terminates after the first auction ends.
 
 Lines 47 through 50 define informTimeout function.
 
-$[tut4=>index.mjs-69,79]
+$[4-complete=>index.mjs-69,79]
 Line 74 defines the timeout as the number we specify. (Line 27)
 
 At this point, we can run the program and see its output by running

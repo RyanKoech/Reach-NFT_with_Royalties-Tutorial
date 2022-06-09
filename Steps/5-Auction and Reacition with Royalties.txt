@@ -2,14 +2,14 @@ This section we introduce an interactive command line interface where you direct
 We end our shortcomings by asking the owner of Nft if he wants to start or restart an auction.
 Let's start by editing our reach code.
 
-$[tut5=>index.rsh-4,9]
+$[5-complete=>index.rsh-4,9]
 Line 8 provides a method: isAuctionOn, which returns a boolean.
 
 Lines 11 through 15 is where we first see the concept of royalties. A function declaration which will be called when the winning Bidder has been determined and has to new pay up.
 
 Line 41 we make sure the correct royalty is set and Line 42 we assert that.
 
-$[tut5=>index.rsh-34,51]
+$[5-complete=>index.rsh-34,51]
 Line 46, we add a new variable.
 With this variable, we will keep the information whether the auction is requested or not.
 
@@ -23,7 +23,7 @@ Line 89 We call the handlePayOut to implement the royalties.
 
 Let's also make the necessary arrangements to tie these changes to the Javascript frontend.
 
-$[tut5=>index.mjs-33,56]
+$[5-complete=>index.mjs-33,56]
 Line 1 has been updated to import the ask object of @reach-sh/stdlib, the Reach standard library. We'll see how ask is used below.
 Lines 2, same as before: importing the standard library and the backend
 

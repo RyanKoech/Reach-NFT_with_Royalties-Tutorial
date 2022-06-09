@@ -3,15 +3,15 @@ Let's update our code for this.
 
 This time, let’s start with changes to Reach code and then we’ll go back into the JavaScript frontend and connect the new methods up.
 
-$[tut3=>index.rsh-4,7]
+$[3-complete=>index.rsh-4,7]
 Line 6 provides one method: showBid, which receives a UInt.
 
-$[tut3=>index.rsh-20,22]
+$[3-complete=>index.rsh-20,22]
 A view[https://docs.reach.sh/ref-programs-appinit.html#%28idx._%28gentag._29%29%29] is defined with View(viewName, viewInterface) on lines 20, 21 and 22,
 where viewName is a string that labels the view and viewInterface is an object where each field indicates the type of a function or value provided by the contract associated with the specified DApp.
 In the DApp, the result of this application argument is referred to as a view object.
 
-$[tut3=>index.rsh-30,61]
+$[3-complete=>index.rsh-30,61]
 Lines 30 through 33 define the required cycle (While[https://docs.reach.sh/ref-programs-consensus.html#%28part._while%29]) for the auction.
 A while statement may occur within a consensus step and is written:
 var LHS = INIT_EXPR;
@@ -47,10 +47,10 @@ Line 59 updates our variables. The last bidder and the price vary.
 
 Our Reach code is ready. Now we’ll go back into the JavaScript frontend code and connect the new methods up.
 
-$[tut3=>index.mjs-4,9]
+$[3-complete=>index.mjs-4,9]
 Line 8 shows a helpful function for displaying currency amounts with up to 4 decimal places.
 
-$[tut3=>index.mjs-17,69]
+$[3-complete=>index.mjs-17,69]
 Lines 17 through 24 define the highest bid bidders can pay. Because they can now bid more than once.
 
 Lines 27 through 30 hold the name of the last bidder and last bid amount.
